@@ -1,0 +1,15 @@
+steps:
+- name: mirror.gcr.io/library/golang
+  env:
+  - GOOS=linux
+  - CGO_ENABLED=0
+  args: ['go', 'build', '-o', 'server' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'payaljain/bluegreen-go:v$BUILD_ID', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'payaljain/bluegreen-go:v$BUILD_ID']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', './k8s/']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=poc-k-fundamentals'

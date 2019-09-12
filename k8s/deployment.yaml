@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-go-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample
+      slot: blue
+  template:
+    metadata:
+      name: go-docker
+      labels:
+        app: sample
+        slot: blue
+    spec:
+      containers:
+        - image: payaljain/bluegreen-go:v1
+          name: go-docker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-go-service
+spec:
+  selector:
+    app: sample
+    slot: blue
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+
