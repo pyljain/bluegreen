@@ -15,7 +15,6 @@ steps:
   args: ['sed', '-i', 's|BUILD_ID|$BUILD_ID|g', './k8s/deployment.yaml']
 - name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: bash
-  # args: ['get', 'svc/sample-go-service', '--template="{{ .spec.selector.slot }}"', '|', 'tee', '-a', '/workspace/slot.txt']
   args:
   - -c
   - |
@@ -30,6 +29,7 @@ steps:
   - -c
   - |
     _SLOT=$(cat /workspace/slot.txt)
+    echo "Slot is $_SLOT"
     if [ "$_SLOT" == "blue" ]
     then
       sed -i "s|SLOT_ID|green|g" ./k8s/deployment.yaml
