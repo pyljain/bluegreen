@@ -14,6 +14,24 @@ steps:
 - name: 'ubuntu'
   args: ['sed', '-i', 's|BUILD_ID|$BUILD_ID|g', './k8s/deployment.yaml']
 - name: 'gcr.io/cloud-builders/kubectl'
+  args: ['get', 'svc', 'sample-go-service', '--template="{{ .spec.selector.slot }}"', '>', '/workspace/slot.txt']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=poc-k-fundamentals'
+- name: 'ubuntu'
+  args: ['sed', '-i', 's|PROJECT_ID|$PROJECT_ID|g', './k8s/deployment.yaml']
+  entrypoint: 'bash'
+  args:
+  - -c
+  - |
+    SLOT=$(cat /workspace/slot.txt)
+    if [ $SLOT == "blue" ]
+    then
+      sed -i "s|SLOT_ID|green|g" ./k8s/deployment.yaml
+    else
+      sed -i "s|SLOT_ID|blue|g" ./k8s/deployment.yaml
+    fi
+- name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', './k8s/']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
