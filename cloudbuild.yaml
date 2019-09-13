@@ -28,6 +28,7 @@ steps:
   args:
   - -c
   - |
+    cat /workspace/slot.txt
     _SLOT=$(cat /workspace/slot.txt)
     echo "Slot is $_SLOT"
     if [ "$_SLOT" == "blue" ]
