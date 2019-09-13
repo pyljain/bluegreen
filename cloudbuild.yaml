@@ -14,7 +14,7 @@ steps:
 - name: 'ubuntu'
   args: ['sed', '-i', 's|BUILD_ID|$BUILD_ID|g', './k8s/deployment.yaml']
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['get', 'svc/sample-go-service', '--template="{{ .spec.selector.slot }}"', '|', 'tee', '-a', '/workspace/slot.txt']
+  command: ['get', 'svc/sample-go-service', '--template="{{ .spec.selector.slot }}"', '|', 'tee', '-a', '/workspace/slot.txt']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=poc-k-fundamentals'
