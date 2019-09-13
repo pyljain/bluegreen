@@ -5,9 +5,10 @@ steps:
   - CGO_ENABLED=0
   args: ['go', 'build', '-o', 'server' ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'payaljain/bluegreen-go:v$BUILD_ID', '.']
+  # args: ['build', '-t', 'payaljain/bluegreen-go:v$BUILD_ID', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/bluegreen-go:v$BUILD_ID', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'payaljain/bluegreen-go:v$BUILD_ID']
+  args: ['push', 'gcr.io/$PROJECT_ID/bluegreen-go:v$BUILD_ID']
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', './k8s/']
   env:

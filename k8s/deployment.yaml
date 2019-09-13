@@ -16,7 +16,7 @@ spec:
         slot: blue
     spec:
       containers:
-        - image: payaljain/bluegreen-go:v1
+        - image: gcr.io/PROJECT_ID/bluegreen-go:vBUILD_ID
           name: go-docker
 ---
 apiVersion: v1
