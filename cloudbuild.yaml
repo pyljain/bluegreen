@@ -30,8 +30,8 @@ steps:
   - |
     cat /workspace/slot.txt
     SLOT=$(cat /workspace/slot.txt)
-    echo "Slot is ${SLOT}"
-    if [ "${SLOT}" == "blue" ]
+    echo "Slot is $$SLOT"
+    if [ "$$SLOT" == "blue" ]
     then
       sed -i "s|SLOT_ID|green|g" ./k8s/deployment.yaml
     else
