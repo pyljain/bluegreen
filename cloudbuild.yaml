@@ -19,7 +19,7 @@ steps:
   args:
   - -c
   - |
-    kubectl get svc/sample-go-service --template="{{ .spec.selector.slot }}" > /workspace/slot.txt
+    kubectl.bash get svc/sample-go-service --template="{{ .spec.selector.slot }}" > /workspace/slot.txt
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=poc-k-fundamentals'
