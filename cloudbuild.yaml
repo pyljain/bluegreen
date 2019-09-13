@@ -9,8 +9,13 @@ steps:
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/bluegreen-go:v$BUILD_ID', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/bluegreen-go:v$BUILD_ID']
+- name: 'ubuntu'
+  args: ['bash', 'sed', '-i', 's|PROJECT_ID|$PROJECT_ID|g', './k8s/deployment.yaml']
+- name: 'ubuntu'
+  args: ['bash', 'sed', '-i', 's|BUILD_ID|$BUILD_ID|g', './k8s/deployment.yaml']
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', './k8s/']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=poc-k-fundamentals'
+
