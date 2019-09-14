@@ -1,0 +1,3 @@
+steps:
+- name: mirror.gcr.io/library/golang
+  args: ['go', 'test']
